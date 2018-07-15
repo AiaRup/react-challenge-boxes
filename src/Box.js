@@ -7,11 +7,12 @@ const random_bg_color = () => {
   return 'rgb(' + x + ',' + y + ',' + z + ')';
 };
 
-const Box = () => {
+const Box = (props) => {
   let bgColor = { backgroundColor: random_bg_color() };
 
   return (
-    <div className="Box" style={bgColor}></div>
+    <div className="Box" style={bgColor} onMouseEnter={props.onHover}
+      onMouseLeave={props.onLeaveHover}></div>
   );
 };
 

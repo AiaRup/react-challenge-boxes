@@ -10,10 +10,18 @@ class Boxes extends Component {
       length: 0 };
     this.direction = 'up';
     this.changeLenght = this.changeLenght.bind(this);
+    this.startProcess = this.startProcess.bind(this);
+    this.freezeProcess = this.freezeProcess.bind(this);
+    this.unfreezeProcess = this.unfreezeProcess.bind(this);
   }
 
   componentDidMount() {
-    setInterval(this.changeLenght, 40);
+    this.startProcess();
+  }
+
+  startProcess() {
+    let intervalId = setInterval(this.changeLenght, 40);
+    this.setState({ intervalId: intervalId });
   }
 
   changeLenght() {
@@ -32,10 +40,19 @@ class Boxes extends Component {
     }
   }
 
+  freezeProcess() {
+    clearInterval(this.state.intervalId);
+  }
+
+  unfreezeProcess() {
+    this.startProcess();
+  }
+
   loop(arrLength) {
     let boxArray = [];
     for (let i = 0; i < arrLength; i++) {
-      boxArray.push(<Box key={i}/>);
+      boxArray.push(<Box key={i} onHover={this.freezeProcess}
+        onLeaveHover={this.unfreezeProcess}/>);
     }
     return boxArray;
   }
