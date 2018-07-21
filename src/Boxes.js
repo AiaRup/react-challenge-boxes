@@ -10,23 +10,23 @@ class Boxes extends Component {
       length: 0,
       size: 93 };
     this.direction = 'up';
-    this.changeLenght = this.changeLenght.bind(this);
-    this.startProcess = this.startProcess.bind(this);
-    this.freezeProcess = this.freezeProcess.bind(this);
-    this.unfreezeProcess = this.unfreezeProcess.bind(this);
-    this.handleClick = this.handleClick.bind(this);
+    this. intervalId = 0;
   }
 
   componentDidMount() {
     this.startProcess();
   }
 
-  startProcess() {
-    let intervalId = setInterval(this.changeLenght, 40);
-    this.setState({ intervalId: intervalId });
+  componentWillUnmount() {
+    clearInterval(this.intervalId);
   }
 
-  changeLenght() {
+  startProcess = () => {
+    let intervalId = setInterval(this.changeLenght, 40);
+    this.intervalId = intervalId;
+  }
+
+  changeLenght = () => {
     // add boxes
     if(this.direction === 'up') {
       let newLength = this.state.length + 1;
@@ -42,15 +42,15 @@ class Boxes extends Component {
     }
   }
 
-  freezeProcess() {
-    clearInterval(this.state.intervalId);
+  freezeProcess = ()  => {
+    clearInterval(this.intervalId);
   }
 
-  unfreezeProcess() {
+  unfreezeProcess = () => {
     this.startProcess();
   }
 
-  handleClick() {
+  handleClick = () => {
     let newLength = this.state.length * 2;
     let newBoxSize = this.state.size / 2;
     let newMaxLength = this.state.maxLength * 2;
